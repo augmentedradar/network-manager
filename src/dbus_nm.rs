@@ -201,6 +201,16 @@ impl DBusNetworkManager {
             "ssid",
             access_point.ssid().as_bytes().to_vec(),
         );
+        add_str(
+            &mut wireless,
+            "band",
+            "bg",
+        );
+        add_str(
+            &mut wireless,
+            "bssid",
+            access_point.hw_address,
+        );
         settings.insert("802-11-wireless".to_string(), wireless);
 
         match *credentials {

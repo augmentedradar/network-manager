@@ -209,7 +209,7 @@ impl DBusNetworkManager {
         add_str(
             &mut wireless,
             "bssid",
-            access_point.hw_address,
+            access_point.hw_address.as_bytes().to_vec(),
         );
         settings.insert("802-11-wireless".to_string(), wireless);
 

@@ -1,3 +1,4 @@
+extern crate hex;
 use std::collections::HashMap;
 use std::net::Ipv4Addr;
 
@@ -195,23 +196,22 @@ impl DBusNetworkManager {
     ) -> Result<(String, String)> {
         let mut settings: HashMap<String, VariantMap> = HashMap::new();
 
+        let mac_hex = access_point.hw_address.replace(&['.', ':', '-'][..], "");
+        let mac_bytes = hex::decode(mac_hex).expect("Decoding failed");
         let mut wireless: VariantMap = HashMap::new();
         add_val(
             &mut wireless,
             "ssid",
             access_point.ssid().as_bytes().to_vec(),
         );
-        add_str(
-            &mut wireless,
-            "band",
-            "bg",
-        );
-        add_str(
+        add_val(
             &mut wireless,
             "bssid",
-            access_point.hw_address.as_bytes().to_vec(),
+            mac_bytes,
         );
+        add_str(&mut wireless, "band", "bg");
         settings.insert("802-11-wireless".to_string(), wireless);
+        println!("connect_to_access_point: settings: {:?}", settings);
 
         match *credentials {
             AccessPointCredentials::Wep { ref passphrase } => {

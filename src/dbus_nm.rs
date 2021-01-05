@@ -193,6 +193,7 @@ impl DBusNetworkManager {
         device_path: &str,
         access_point: &AccessPoint,
         credentials: &AccessPointCredentials,
+        roaming: bool,
     ) -> Result<(String, String)> {
         let mut settings: HashMap<String, VariantMap> = HashMap::new();
 
@@ -204,11 +205,13 @@ impl DBusNetworkManager {
             "ssid",
             access_point.ssid().as_bytes().to_vec(),
         );
-        add_val(
-            &mut wireless,
-            "bssid",
-            mac_bytes,
-        );
+        if(!roaming) {
+            add_val(
+                &mut wireless,
+                "bssid",
+                mac_bytes,
+            );
+        }
         add_str(&mut wireless, "band", "bg");
         settings.insert("802-11-wireless".to_string(), wireless);
         println!("connect_to_access_point: settings: {:?}", settings);

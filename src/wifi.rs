@@ -56,12 +56,14 @@ impl<'a> WiFiDevice<'a> {
         &self,
         access_point: &AccessPoint,
         credentials: &AccessPointCredentials,
+        roaming: bool,
     ) -> Result<(Connection, ConnectionState)> {
         connect_to_access_point(
             &self.dbus_manager,
             self.device.path(),
             access_point,
             credentials,
+            roaming,
         )
     }
 

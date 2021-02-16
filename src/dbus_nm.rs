@@ -191,6 +191,7 @@ impl DBusNetworkManager {
     pub fn connect_to_access_point(
         &self,
         device_path: &str,
+        interface: &str,
         access_point: &AccessPoint,
         credentials: &AccessPointCredentials,
         roaming: bool,
@@ -215,6 +216,16 @@ impl DBusNetworkManager {
         add_str(&mut wireless, "band", "bg");
         settings.insert("802-11-wireless".to_string(), wireless);
         println!("connect_to_access_point: settings: {:?}", settings);
+
+        let mut connection: VariantMap = HashMap::new();
+
+        if let Ok(ssid_str) = access_point.ssid().as_str() {
+            add_str(&mut connection, "id", ssid_str);
+        }
+        add_str(&mut connection, "interface-name", interface);
+        add_str(&mut connection, "type", "802-11-wireless");
+        add_val(&mut connection, "autoconnect-priority", 5);
+        settings.insert("connection".to_string(), connection);
 
         match *credentials {
             AccessPointCredentials::Wep { ref passphrase } => {

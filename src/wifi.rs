@@ -61,6 +61,7 @@ impl<'a> WiFiDevice<'a> {
         connect_to_access_point(
             &self.dbus_manager,
             self.device.path(),
+            self.device.interface(),
             access_point,
             credentials,
             roaming,

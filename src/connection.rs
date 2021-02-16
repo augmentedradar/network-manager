@@ -247,8 +247,9 @@ pub fn connect_to_access_point(
     access_point: &AccessPoint,
     credentials: &AccessPointCredentials,
     roaming: bool,
+    conn_interface: &str,
 ) -> Result<(Connection, ConnectionState)> {
-    let (path, _) = dbus_manager.connect_to_access_point(device_path, access_point, credentials, roaming)?;
+    let (path, _) = dbus_manager.connect_to_access_point(device_path, access_point, credentials, roaming, conn_interface)?;
 
     let connection = Connection::init(dbus_manager, &path)?;
 

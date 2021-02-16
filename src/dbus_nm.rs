@@ -222,9 +222,11 @@ impl DBusNetworkManager {
         if let Ok(ssid_str) = access_point.ssid().as_str() {
             add_str(&mut connection, "id", ssid_str);
         }
+        /*
         if(conn_interface.chars().count() > 0) {
             add_str(&mut connection, "interface-name", conn_interface);
         }
+        */
         add_str(&mut connection, "type", "802-11-wireless");
         add_val(&mut connection, "autoconnect-priority", 5);
         settings.insert("connection".to_string(), connection);

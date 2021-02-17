@@ -228,6 +228,7 @@ impl DBusNetworkManager {
         add_str(&mut connection, "type", "802-11-wireless");
         add_val(&mut connection, "autoconnect-priority", 5);
         settings.insert("connection".to_string(), connection);
+        println!("connect_to_access_point: connection: {:?}", connection);
 
         match *credentials {
             AccessPointCredentials::Wep { ref passphrase } => {
@@ -283,6 +284,7 @@ impl DBusNetworkManager {
             dev_path = self.get_device_by_interface(conn_interface)?;
         }
         println!("connect_to_access_point: device_path: {:?}", device_path.to_string());
+        println!("connect_to_access_point: dev_path: {:?}", dev_path);
         println!("connect_to_access_point: access_point: {:?}", access_point.path.to_string());
         let response = self.dbus.call_with_args(
             NM_SERVICE_PATH,

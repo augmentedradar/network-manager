@@ -278,6 +278,10 @@ impl DBusNetworkManager {
             AccessPointCredentials::None => {},
         };
 
+        let mut dev_path = device_path.to_string();
+        if(conn_interface.chars().count() > 0) {
+            dev_path = self.get_device_by_interface(conn_interface)?;
+        }
         println!("connect_to_access_point: device_path: {:?}", device_path.to_string());
         println!("connect_to_access_point: access_point: {:?}", access_point.path.to_string());
         let response = self.dbus.call_with_args(
@@ -286,7 +290,7 @@ impl DBusNetworkManager {
             "AddAndActivateConnection",
             &[
                 &settings as &RefArg,
-                &Path::new(device_path.to_string())? as &RefArg,
+                &Path::new(dev_path)? as &RefArg,
                 &Path::new(access_point.path.to_string())? as &RefArg,
             ],
         )?;

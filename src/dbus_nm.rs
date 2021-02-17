@@ -215,7 +215,6 @@ impl DBusNetworkManager {
         }
         add_str(&mut wireless, "band", "bg");
         settings.insert("802-11-wireless".to_string(), wireless);
-        println!("connect_to_access_point: settings: {:?}", settings);
 
         let mut connection: VariantMap = HashMap::new();
 
@@ -228,7 +227,6 @@ impl DBusNetworkManager {
         add_str(&mut connection, "type", "802-11-wireless");
         add_val(&mut connection, "autoconnect-priority", 5);
         settings.insert("connection".to_string(), connection);
-        println!("connect_to_access_point: connection: {:?}", connection);
 
         match *credentials {
             AccessPointCredentials::Wep { ref passphrase } => {
@@ -278,6 +276,8 @@ impl DBusNetworkManager {
             },
             AccessPointCredentials::None => {},
         };
+
+        println!("connect_to_access_point: settings: {:?}", settings);
 
         let mut dev_path = device_path.to_string();
         if(conn_interface.chars().count() > 0) {
